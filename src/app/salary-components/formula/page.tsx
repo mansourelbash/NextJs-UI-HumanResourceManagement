@@ -130,7 +130,7 @@ export default function FormulaList() {
     <>
       <div className='mb-2 flex items-center justify-between space-y-2'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Danh Sách Công Thức</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>Formula List</h2>
           <AppBreadcrumb pathList={pathList} className="mt-2" />
         </div>
       </div>

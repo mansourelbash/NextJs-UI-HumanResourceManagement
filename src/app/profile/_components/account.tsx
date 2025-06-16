@@ -96,14 +96,13 @@ export default function Account({ userName, password, email }: Props) {
                         </AlertDialog>
                     </div>
                 </div>
-            </div>
-            <div className='p-6 pt-0 pl-2 ml-4'>
+            </div>            <div className='p-6 pt-0 pl-2 ml-4'>
                 <div className="grid w-full max-w-sm items-center gap-1.5 p-1">
-                    <Label htmlFor="email">Tên người dùng</Label>
+                    <Label htmlFor="email">Username</Label>
                     <Input disabled={true} placeholder="Email" value={userName} />
                 </div>
                 <div className="grid w-full max-w-sm items-center gap-1.5 p-1">
-                    <Label htmlFor="email">Mật khẩu</Label>
+                    <Label htmlFor="email">Password</Label>
                     <Input disabled={true} placeholder="Password" value={password} />
                 </div>
                 <div className="grid w-full max-w-sm items-center gap-1.5 p-1">

@@ -182,22 +182,20 @@ export default function FormCRUD(props: FormProps) {
     <div>
       {mode != CRUD_MODE.DELETE ?
         <Sheet open={openCRUD} onOpenChange={setOpenCRUD}>
-          <SheetContent className="p-0 overflow-y-auto sm:max-w-[800px] !sm:w-[800px] min-w-[800px]">
-            <SheetHeader className="px-4 pt-3">
-              <SheetTitle>Thông tin nhân viên</SheetTitle>
+          <SheetContent className="p-0 overflow-y-auto sm:max-w-[800px] !sm:w-[800px] min-w-[800px]">            <SheetHeader className="px-4 pt-3">
+              <SheetTitle>Employee Information</SheetTitle>
               <SheetDescription>
-                Form này chỉ cho phép cập nhật một số thông tin cơ bản của nhân viên, để cập nhật chi tiết vào hợp đồng
+                This form only allows updating basic employee information, for detailed updates go to contracts
               </SheetDescription>
             </SheetHeader>
             <div>
               <Form {...form}>
-                <form className="space-y-0 grid grid-cols-3 gap-2 py-2 p-4">
-                  <FormField control={form.control} name="name"
+                <form className="space-y-0 grid grid-cols-3 gap-2 py-2 p-4">                  <FormField control={form.control} name="name"
                     render={({ field }) => (
                       <FormItem className="col-span-2">
-                        <FormLabel>Tên nhân viên</FormLabel>
+                        <FormLabel>Employee Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Nhập tên nhân viên" {...field} disabled={true} />
+                          <Input placeholder="Enter employee name" {...field} disabled={true} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -206,12 +204,12 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="contractId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Mã hợp đồng</FormLabel>
+                        <FormLabel>Contract Code</FormLabel>
                         <SelectOne onValueChange={(e) => { field.onChange(e); handleChangeContractId(Number(e)) }}
                           value={field.value?.toString()} disabled={isDisabled} >
                           <FormControl >
                             <SelectTrigger >
-                              <SelectValue placeholder="Chọn hợp đồng để thêm nhân viên" />
+                              <SelectValue placeholder="Select contract to add employee" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -228,13 +226,12 @@ export default function FormCRUD(props: FormProps) {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <FormField control={form.control} name="departmentName"
+                  />                  <FormField control={form.control} name="departmentName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tên nhân viên</FormLabel>
+                        <FormLabel>Department</FormLabel>
                         <FormControl>
-                          <Input placeholder="Phòng ban" {...field} disabled={true} />
+                          <Input placeholder="Department" {...field} disabled={true} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -243,9 +240,9 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="positionName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Vị trí</FormLabel>
+                        <FormLabel>Position</FormLabel>
                         <FormControl>
-                          <Input placeholder="Chức vụ" {...field} disabled={true} />
+                          <Input placeholder="Position" {...field} disabled={true} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -262,13 +259,12 @@ export default function FormCRUD(props: FormProps) {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <FormField control={form.control} name="phoneNumber"
+                  />                  <FormField control={form.control} name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Số điện thoại</FormLabel>
+                        <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder="SĐT" {...field} disabled={isDisabled} />
+                          <Input type="tel" placeholder="Phone" {...field} disabled={isDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -278,7 +274,7 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="dateOfBirth"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Ngày sinh</FormLabel>
+                        <FormLabel>Date of Birth</FormLabel>
                         <FormControl>
                           <Input type="date"
                             placeholder="Ngày sinh"
@@ -289,10 +285,9 @@ export default function FormCRUD(props: FormProps) {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <FormField control={form.control} name="gender" render={({ field }) => (
+                  />                  <FormField control={form.control} name="gender" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Giới tính</FormLabel>
+                      <FormLabel>Gender</FormLabel>
                       <FormControl>
                         <SelectOne onValueChange={(value: string) => field.onChange(Boolean(value))}
                           value={field.value?.toString()} disabled={true}>
@@ -300,8 +295,8 @@ export default function FormCRUD(props: FormProps) {
                             <SelectValue placeholder="Select Gender" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value={"true"}>Nam</SelectItem>
-                            <SelectItem value={"false"}>Nữ</SelectItem>
+                            <SelectItem value={"true"}>Male</SelectItem>
+                            <SelectItem value={"false"}>Female</SelectItem>
                           </SelectContent>
                         </SelectOne>
                       </FormControl>
@@ -310,17 +305,16 @@ export default function FormCRUD(props: FormProps) {
                   )} />
                   <FormField control={form.control} name="address" render={({ field }) => (
                     <FormItem className="col-span-3">
-                      <FormLabel>Địa chỉ</FormLabel>
+                      <FormLabel>Address</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={true} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )} />
-                  <FormField control={form.control} name="taxDeductionIds"
+                  )} />                  <FormField control={form.control} name="taxDeductionIds"
                     render={({ field }) => (
                       <FormItem className="col-span-3">
-                        <FormLabel>Các loại giảm trừ thuế</FormLabel>
+                        <FormLabel>Tax Deduction Types</FormLabel>
                         <Select
                           onChange={(selectedOptions) => {
                             field.onChange(selectedOptions ? selectedOptions.map(option => option.value) : []);
@@ -339,9 +333,9 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="userName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tên tài khoản</FormLabel>
+                        <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="Tên tài khoản" {...field} disabled={isDisabled} />
+                          <Input placeholder="Username" {...field} disabled={isDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -350,31 +344,30 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Mật khẩu</FormLabel>
+                        <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="Mật khẩu" {...field} disabled={isDisabled} />
+                          <Input type="password" placeholder="Password" {...field} disabled={isDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div></div>
-                  <div className="col-span-3  flex justify-between items-center">
+                  <div></div>                  <div className="col-span-3  flex justify-between items-center">
                     <div className="flex space-x-2 justify-start sticky bottom-0 py-2 bg-white border-t">
-                      <Button type="button" onClick={handleCloseForm} size='sm' className='h-8 bg-red-500'><IoMdClose className='mr-1 h-4 w-4' />Đóng </Button>
+                      <Button type="button" onClick={handleCloseForm} size='sm' className='h-8 bg-red-500'><IoMdClose className='mr-1 h-4 w-4' />Close </Button>
                       {(mode === CRUD_MODE.ADD || mode === CRUD_MODE.EDIT) &&
                         <Button type="button" onClick={handleSubmit} disabled={updateDataMutation.isPending} size='sm' className='h-8 bg-primary'>
                           {updateDataMutation.isPending && <LoadingSpinIcon className="w-[22px] h-[22px] !border-[4px] !border-t-white " />}
-                          <FaSave className='mr-1 h-4 w-4' />Cập nhật
+                          <FaSave className='mr-1 h-4 w-4' />Update
                         </Button>}
                       {
                         mode == CRUD_MODE.VIEW && <div className="space-x-2">
                           <Button type="button" size='sm' className='h-8 bg-yellow-500'>
                             {detail.typeContract == 1 ? <Link href={`/history/attendance-tracking/${detail.id}`}>
-                              Xem lịch sử chấm công partime
+                              View Part-time Attendance History
                             </Link> :
                               <Link href={`/history/fulltime-attendance/${detail.id}`}>
-                                Xem lịch sử chấm công fulltime
+                                View Full-time Attendance History
                               </Link>}
                           </Button>
                         </div>
@@ -383,7 +376,7 @@ export default function FormCRUD(props: FormProps) {
                     <div>
                       {(mode === CRUD_MODE.ADD || mode === CRUD_MODE.EDIT) &&
                         <Button type="button" onClick={handleSubmitAndSendEmail} size='sm' className='h-8 bg-yellow-500'>
-                          <MdAttachEmail className='mr-1 h-4 w-4' />Cập nhật + gửi thông tin đăng nhập mới
+                          <MdAttachEmail className='mr-1 h-4 w-4' />Update + send new login info
                         </Button>}
                     </div>
                   </div>

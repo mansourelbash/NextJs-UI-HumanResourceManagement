@@ -12,6 +12,8 @@ import { AlertDialogDescription } from "@/components/ui/alert-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import leaveApplicationApiRequest from "@/apis/leaveApplication.api";
 import { handleErrorApi, handleSuccessApi } from "@/lib/utils";
+import { useCurrentUser } from "@/app/system/ui/auth-context";
+import { Role } from "@/data/schema/auth.schema";
 
 type FormProps = {
     openCRUD: boolean,
@@ -29,6 +31,8 @@ const QUERY_KEY = {
 export default function FormCRUD(props: FormProps) {
     const { openCRUD, setOpenCRUD, size = 600, mode, detail } = props;
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
+    const { currentUser } = useCurrentUser();
+    const isAdmin = currentUser?.role === Role.Admin;
 
     const queryClient = useQueryClient();
 
@@ -73,16 +77,20 @@ export default function FormCRUD(props: FormProps) {
         staleTime: 5000
     });
 
-    const form = useForm<leaveApplication>({
-        resolver: zodResolver(leaveApplicationSchema),
+    const form = useForm<leaveApplication>({        resolver: zodResolver(leaveApplicationSchema),
         defaultValues: mode === CRUD_MODE.ADD ? {
             ...leaveApplicationDefault,
             statusLeave: StatusLeave.Draft
         } : leaveApplicationDefault,
     });
-    const onSubmit = (data: leaveApplication) => {
-        // Chuyển đổi giá trị statusLeave từ chuỗi thành enum
-        //data.statusLeave = parseInt(data.statusLeave);
+      const onSubmit = (data: leaveApplication) => {
+        // For new leave applications by regular users, always set status to Draft
+        if (!isAdmin) {
+            // Regular users can only submit in Draft status, whether adding or editing
+            if (mode === CRUD_MODE.ADD || mode === CRUD_MODE.EDIT) {
+                data.statusLeave = StatusLeave.Draft;
+            }
+        }
     
         if (mode === CRUD_MODE.ADD) {
             addDataMutation.mutate(data);
@@ -102,24 +110,31 @@ export default function FormCRUD(props: FormProps) {
         if (Object.keys(detail).length > 0) {
             form.reset(detail);
         }
+        // Regular users can only view in VIEW mode, Admins can also edit status in EDIT mode
+        const statusDisabled = mode === CRUD_MODE.VIEW || (mode === CRUD_MODE.EDIT && !isAdmin);
         setIsDisabled(mode === CRUD_MODE.VIEW);
-    }, [detail, mode, openCRUD]);
+    }, [detail, mode, openCRUD, isAdmin]);
 
     return (
         <div>
             <AlertDialog open={openCRUD} onOpenChange={setOpenCRUD}>
                 {mode !== CRUD_MODE.DELETE ? (
-                    <AlertDialogContent className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[500px] sm:max-w-[${size}px] !sm:w-[${size}px] sm:rounded-[0.3rem]`}>
-                        <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
-                            <AlertDialogTitle className="text-slate-50">{mode === CRUD_MODE.ADD ? "Thêm yêu cầu nghỉ phép" : "Sửa yêu cầu nghỉ phép"}</AlertDialogTitle>
+                    <AlertDialogContent className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[500px] sm:max-w-[${size}px] !sm:w-[${size}px] sm:rounded-[0.3rem]`}>                        <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
+                            <AlertDialogTitle className="text-slate-50">
+                                {mode === CRUD_MODE.ADD 
+                                    ? (isAdmin ? "Add Leave Request" : "Request Leave") 
+                                    : "Edit Leave Request"}
+                                {!isAdmin && mode === CRUD_MODE.ADD && (
+                                    <span className="block text-xs text-slate-200 mt-1">Will be submitted as Draft for approval</span>
+                                )}
+                            </AlertDialogTitle>
                         </AlertDialogHeader>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
                                 <div className="p-2 text-sm space-y-3">
                                 <FormField control={form.control} name="employeeId"
                                     render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Nhân viên</FormLabel>
+                                        <FormItem>                                            <FormLabel>Employee</FormLabel>
                                             <FormControl>
                                                 <Select
                                                     {...field}
@@ -128,7 +143,7 @@ export default function FormCRUD(props: FormProps) {
                                                     disabled={isDisabled}
                                                 >
                                                     <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Chọn nhân viên" />
+                                                        <SelectValue placeholder="Select employee" />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {listDataEmployeeQuery.data?.metadata?.map((item) => (
@@ -148,10 +163,9 @@ export default function FormCRUD(props: FormProps) {
 
                                     <FormField control={form.control} name="timeLeave"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Thời gian nghỉ</FormLabel>
+                                            <FormItem>                                <FormLabel>Leave Duration</FormLabel>
                                                 <FormControl>
-                                                    <Input type="number" placeholder="Nhập thời gian nghỉ" {...field} disabled={isDisabled} />
+                                                    <Input type="number" placeholder="Enter leave duration" {...field} disabled={isDisabled} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -160,11 +174,10 @@ export default function FormCRUD(props: FormProps) {
 
                                     <FormField control={form.control} name="description"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Mô tả</FormLabel>
+                                            <FormItem>                                <FormLabel>Description</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        placeholder="Nhập mô tả"
+                                                        placeholder="Enter description"
                                                         {...field}
                                                         value={field.value ?? ''}
                                                         disabled={isDisabled}
@@ -173,56 +186,59 @@ export default function FormCRUD(props: FormProps) {
                                                 <FormMessage />
                                             </FormItem>
                                         )}
-                                    />
-
-                                    <FormField control={form.control} name="statusLeave"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Trạng thái</FormLabel>
-                                                <FormControl>
-                                                    <Select
-                                                        {...field}
-                                                        value={field.value?.toString()}
-                                                        onValueChange={(value) => {
-                                                            const enumValue = parseInt(value);
-                                                            field.onChange(enumValue);
-                                                        }}
-                                                        disabled={isDisabled}
-                                                    >
-                                                        <SelectTrigger className="w-full">
-                                                            <SelectValue placeholder="Chọn trạng thái" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value={StatusLeave.Draft.toString()}>Draft</SelectItem>
-                                                            <SelectItem value={StatusLeave.Approved.toString()}>Approved</SelectItem>
-                                                            <SelectItem value={StatusLeave.Refuse.toString()}>Refuse</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <AlertDialogFooter className="p-2 py-1 bg-secondary/80">
-                                    <Button onClick={handleCloseForm} className="bg-gray-400 hover:bg-red-500" size='sm'>Close</Button>
+                                    />                                    {/* Only show status field for admins in any mode, or for regular users in VIEW mode */}
+                                    {(isAdmin || mode === CRUD_MODE.VIEW) && (
+                                        <FormField control={form.control} name="statusLeave"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Status</FormLabel>
+                                                    <FormControl>
+                                                        <Select
+                                                            {...field}
+                                                            value={field.value?.toString()}
+                                                            onValueChange={(value) => {
+                                                                const enumValue = parseInt(value);
+                                                                field.onChange(enumValue);
+                                                            }}
+                                                            disabled={isDisabled || (mode === CRUD_MODE.EDIT && !isAdmin)}
+                                                        >
+                                                            <SelectTrigger className="w-full">
+                                                                <SelectValue placeholder="Select status" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value={StatusLeave.Draft.toString()}>Draft</SelectItem>
+                                                                {isAdmin && (
+                                                                    <>
+                                                                        <SelectItem value={StatusLeave.Approved.toString()}>Approved</SelectItem>
+                                                                        <SelectItem value={StatusLeave.Refuse.toString()}>Refuse</SelectItem>
+                                                                    </>
+                                                                )}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    )}
+                                </div>                                <AlertDialogFooter className="p-2 py-1 bg-secondary/80">
+                                    <Button onClick={handleCloseForm} className="bg-gray-400 hover:bg-red-500" size='sm'>Cancel</Button>
                                     {(mode === CRUD_MODE.ADD || mode === CRUD_MODE.EDIT) &&
                                         <Button type="submit" size='sm'>Save</Button>}
                                 </AlertDialogFooter>
                             </form>
                         </Form>
                     </AlertDialogContent>
-                ) : (
-                    <AlertDialogContent className={`gap-0 top-[50%] border-none overflow-hidden p-0 w-[400px] sm:rounded-[0.3rem]`}>
+                ) : (                    <AlertDialogContent className={`gap-0 top-[50%] border-none overflow-hidden p-0 w-[400px] sm:rounded-[0.3rem]`}>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
+                            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogDescription className="text-center pb-4 text-lg text-stone-700">
-                            Bạn có chắc chắn muốn xóa yêu cầu này không?
+                            Are you sure you want to delete this leave request?
                         </AlertDialogDescription>
                         <AlertDialogFooter className="!justify-center p-2 py-3 text-center">
-                            <Button onClick={handleCloseForm} className="bg-gray-400 hover:bg-red-500" size='sm'>Close</Button>
-                            <Button className="" size='sm' onClick={() => onSubmit(detail)}>Confirm</Button>
+                            <Button onClick={handleCloseForm} className="bg-gray-400 hover:bg-red-500" size='sm'>Cancel</Button>
+                            <Button className="" size='sm' onClick={() => onSubmit(detail)}>Delete</Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 )}

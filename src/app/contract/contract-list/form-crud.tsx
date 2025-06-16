@@ -82,7 +82,7 @@ export default function FormCRUD(props: FormProps) {
     mutationFn: ({ id }: { id: number }) => contractApiRequest.generateContractPDF(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.keyList] })
-      handleSuccessApi({ message: "Cập nhật bản mềm thành công!" });
+      handleSuccessApi({ message: "Updated contract successfully!" });
       setOpenPDF(false);
       setOpenCRUD(false);
     }
@@ -157,18 +157,17 @@ export default function FormCRUD(props: FormProps) {
     if (mode == CRUD_MODE.VIEW) setIsDisabled(true);
     else setIsDisabled(false);
   }, [detail, mode, openCRUD])
-
   //List Option
   const allowanceListOptions = listDataAllowance.data?.metadata?.map((item) => {
     return {
-      label: `Tên loại: ${item.name} - Định mức: ${item.amount}`,
+      label: `Type: ${item.name} - Amount: ${item.amount}`,
       value: item.id, // Assuming `item.id` is the identifier for each allowance
     };
   });
 
   const insuranceListOptions = listDataInurance.data?.metadata?.map((item) => {
     return {
-      label: `Tên loại: ${item.name} - Cty: ${item.percentCompany}% - NLĐ: ${item.percentEmployee}%`,
+      label: `Type: ${item.name} - Company: ${item.percentCompany}% - Employee: ${item.percentEmployee}%`,
       value: item.id, // Assuming `item.id` is the identifier for each allowance
     };
   });
@@ -177,9 +176,8 @@ export default function FormCRUD(props: FormProps) {
     <div>
       <AlertDialog open={openCRUD} onOpenChange={setOpenCRUD} >
         {mode != CRUD_MODE.DELETE ? <AlertDialogContent
-          className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[800px] sm:max-w-[800px] !sm:w-[800px] sm:rounded-[0.3rem]`}>
-          <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
-            <AlertDialogTitle className="text-slate-50">Chi tiết hợp đồng</AlertDialogTitle>
+          className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[800px] sm:max-w-[800px] !sm:w-[800px] sm:rounded-[0.3rem]`}>          <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
+            <AlertDialogTitle className="text-slate-50">Contract Details</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription />
           <Form {...form}>
@@ -187,7 +185,7 @@ export default function FormCRUD(props: FormProps) {
               <div className="p-2 text-sm space-y-3 grid grid-cols-2 gap-1" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 <FormField control={form.control} name="name" render={({ field }) => (
                   <FormItem className="col-span-2">
-                    <FormLabel>Tên nhân viên</FormLabel>
+                    <FormLabel>Employee Name</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -196,8 +194,7 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="dateOfBirth" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ngày sinh</FormLabel>
+                  <FormItem>                    <FormLabel>Date of Birth</FormLabel>
                     <FormControl>
                       <Input type="date"
                         onChange={field.onChange}
@@ -209,8 +206,7 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="gender" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Giới tính</FormLabel>
+                  <FormItem>                    <FormLabel>Gender</FormLabel>
                     <FormControl>
                       <Select2 onValueChange={(value) => field.onChange(Boolean(value))} value={field.value?.toString()} disabled={isDisabled}>
                         <SelectTrigger>
@@ -227,8 +223,7 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="address" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ</FormLabel>
+                  <FormItem>                    <FormLabel>Address</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -237,8 +232,7 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="countrySide" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Quê quán</FormLabel>
+                  <FormItem>                    <FormLabel>Hometown</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -247,8 +241,7 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="nationalID" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CCCD</FormLabel>
+                  <FormItem>                    <FormLabel>ID Card Number</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -257,18 +250,15 @@ export default function FormCRUD(props: FormProps) {
                 )} />
 
                 <FormField control={form.control} name="nationalAddress" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nơi cấp</FormLabel>
+                  <FormItem>                    <FormLabel>Place of Issue</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )} />
-
-                <FormField control={form.control} name="nationalStartDate" render={({ field }) => (
+                )} />                <FormField control={form.control} name="nationalStartDate" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ngày cấp</FormLabel>
+                    <FormLabel>Issue Date</FormLabel>
                     <FormControl>
                       <Input type="date"
                         onChange={field.onChange}
@@ -277,11 +267,9 @@ export default function FormCRUD(props: FormProps) {
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )} />
-
-                <FormField control={form.control} name="level" render={({ field }) => (
+                )} /><FormField control={form.control} name="level" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Trình độ học vấn</FormLabel>
+                    <FormLabel>Education Level</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -291,7 +279,7 @@ export default function FormCRUD(props: FormProps) {
 
                 <FormField control={form.control} name="major" render={({ field }) => (
                   <FormItem className="col-span-2">
-                    <FormLabel>Chuyên ngành</FormLabel>
+                    <FormLabel>Major</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isDisabled} />
                     </FormControl>
@@ -302,11 +290,11 @@ export default function FormCRUD(props: FormProps) {
                 <FormField control={form.control} name="contractTypeId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Loại hợp đồng</FormLabel>
+                      <FormLabel>Contract Type</FormLabel>
                       <Select2 onValueChange={field.onChange} value={field.value?.toString()} disabled={isDisabled} >
                         <FormControl >
                           <SelectTrigger >
-                            <SelectValue placeholder="Chọn loại hợp đồng" />
+                            <SelectValue placeholder="Select contract type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -320,17 +308,15 @@ export default function FormCRUD(props: FormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-
-                <FormField control={form.control} name="typeContract"
+                />                <FormField control={form.control} name="typeContract"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Loại nhân viên</FormLabel>
+                      <FormLabel>Employee Type</FormLabel>
                       <FormControl>
                         <Select2 onValueChange={(value) => field.onChange(Number(value))} value={field.value?.toString()} disabled={isDisabled} >
                           <FormControl >
                             <SelectTrigger >
-                              <SelectValue placeholder="Chọn loại nhân viên" />
+                              <SelectValue placeholder="Select employee type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -349,9 +335,8 @@ export default function FormCRUD(props: FormProps) {
                 />
 
                 <FormField control={form.control} name="startDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ngày bắt đầu</FormLabel>
+                  render={({ field }) => (                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
                       <FormControl>
                         <Input type="date"
                           onChange={field.onChange}
@@ -364,9 +349,8 @@ export default function FormCRUD(props: FormProps) {
                 />
 
                 <FormField control={form.control} name="endDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ngày kết thúc</FormLabel>
+                  render={({ field }) => (                    <FormItem>
+                      <FormLabel>End Date</FormLabel>
                       <FormControl>
                         <Input type="date"
                           onChange={field.onChange}
@@ -376,18 +360,16 @@ export default function FormCRUD(props: FormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-
-                <FormField
+                />                <FormField
                   control={form.control}
                   name="departmentId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phòng ban</FormLabel>
+                      <FormLabel>Department</FormLabel>
                       <Select2 onValueChange={(e) => { field.onChange(e); handleChangeDepartmentId(Number(e)) }} value={field.value?.toString()} disabled={isDisabled} >
                         <FormControl >
                           <SelectTrigger >
-                            <SelectValue placeholder="Chọn phòng ban" />
+                            <SelectValue placeholder="Select department" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -401,18 +383,16 @@ export default function FormCRUD(props: FormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-
-                <FormField
+                />                <FormField
                   control={form.control}
                   name="positionId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Chức vụ</FormLabel>
+                      <FormLabel>Position</FormLabel>
                       <Select2 onValueChange={field.onChange} value={field.value?.toString()} disabled={isDisabled} >
                         <FormControl >
                           <SelectTrigger >
-                            <SelectValue placeholder="Chọn chức vị" />
+                            <SelectValue placeholder="Select position" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -426,29 +406,27 @@ export default function FormCRUD(props: FormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-
-                <FormField
+                />                <FormField
                   control={form.control}
                   name="contractSalaryId"
                   render={({ field }) => (
                     <FormItem className="col-span-2">
-                      <FormLabel>Quy định lương</FormLabel>
+                      <FormLabel>Salary Rules</FormLabel>
                       <Select2 onValueChange={field.onChange} value={field.value?.toString()} disabled={isDisabled} >
                         <FormControl >
                           <SelectTrigger >
-                            <SelectValue placeholder="Chọn quy định lương cho nhân viên" />
+                            <SelectValue placeholder="Select salary rules for employee" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {
                             listDataContractSalary.data?.metadata?.map((item, index) => {
                               return <SelectItem key={index} value={item.id?.toString() ?? "0"}>
-                                Lương CB: {item.baseSalary}<br />
-                                Mức đóng BH: {item.baseInsurance}<br />
-                                Hệ số: {item.factor}<br />
-                                Số giờ quy định: {item.requiredHours}<br />
-                                Số công (theo giờ): {item.wageHourly}/h<br />
+                                Base Salary: {item.baseSalary}<br />
+                                Insurance Level: {item.baseInsurance}<br />
+                                Factor: {item.factor}<br />
+                                Required Hours: {item.requiredHours}<br />
+                                Hourly Wage: {item.wageHourly}/h<br />
                               </SelectItem>
                             })
                           }
@@ -457,14 +435,12 @@ export default function FormCRUD(props: FormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-
-                <FormField
+                />                <FormField
                   control={form.control}
                   name="allowanceIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Các loại phụ cấp</FormLabel>
+                      <FormLabel>Allowance Types</FormLabel>
                       <Select
                         onChange={(selectedOptions) => {
                           field.onChange(selectedOptions ? selectedOptions.map(option => option.value) : []);
@@ -485,7 +461,7 @@ export default function FormCRUD(props: FormProps) {
                   name="insuranceIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Các loại BH</FormLabel>
+                      <FormLabel>Insurance Types</FormLabel>
                       <Select
                         onChange={(selectedOptions) => {
                           field.onChange(selectedOptions ? selectedOptions.map(option => option.value) : []);
@@ -500,12 +476,11 @@ export default function FormCRUD(props: FormProps) {
                     </FormItem>
                   )}
                 />
-              </div>
-              <AlertDialogFooter className="flex !justify-between p-2 py-1 bg-secondary/80">
+              </div>              <AlertDialogFooter className="flex !justify-between p-2 py-1 bg-secondary/80">
                 <div>
                   {(mode === CRUD_MODE.VIEW || mode === CRUD_MODE.EDIT) &&
                     <Button type="button" onClick={() => setOpenPDF(true)} className="bg-yellow-400  hover:bg-yellow-500" size='sm' >
-                      <FaFilePdf className="me-1" /> Xem bản mềm
+                      <FaFilePdf className="me-1" /> View PDF
                     </Button>}
                 </div>
                 <div className="space-x-1">
@@ -539,17 +514,15 @@ export default function FormCRUD(props: FormProps) {
 
       <AlertDialog open={openPDF} onOpenChange={setOpenPDF} >
         <AlertDialogContent
-          className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[800px] sm:max-w-[800px] !sm:w-[800px] sm:rounded-[0.3rem]`}>
-          <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
-            <AlertDialogTitle className="text-slate-50">Hợp đồng PDF</AlertDialogTitle>
+          className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[800px] sm:max-w-[800px] !sm:w-[800px] sm:rounded-[0.3rem]`}>          <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
+            <AlertDialogTitle className="text-slate-50">Contract PDF</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription />
           <iframe src={`${envConfig.NEXT_PUBLIC_API_HOST}/Contract/${detail.fireUrlBase}`} className="w-full h-[70vh]" />
           <AlertDialogFooter className="flex !justify-between p-2 py-1 bg-secondary/80">
             {detail.id != 0 && <Button onClick={() => generateContractDataMutation.mutate({ id: detail.id ?? 0 })}
               className="bg-green-400  hover:bg-green-500" size='sm'>
-              {(generateContractDataMutation.isPending || generateContractDataMutation.isPending) && <LoadingSpinIcon className="w-[22px] h-[22px] !border-[4px] !border-t-white " />}
-              Tạo mới
+              {(generateContractDataMutation.isPending || generateContractDataMutation.isPending) && <LoadingSpinIcon className="w-[22px] h-[22px] !border-[4px] !border-t-white " />}              Generate New
             </Button>}
             <Button onClick={() => setOpenPDF(false)} className="bg-gray-400  hover:bg-red-500" size='sm' >Close</Button>
           </AlertDialogFooter>

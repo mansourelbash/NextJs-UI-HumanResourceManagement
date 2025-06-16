@@ -122,18 +122,17 @@ export default function FormCRUD(props: FormProps) {
                 {mode != CRUD_MODE.DELETE ? <AlertDialogContent
                     className={`gap-0 top-[50%] border-none overflow-hidden p-0 sm:min-w-[500px] sm:max-w-[${size}px] !sm:w-[${size}px] sm:rounded-[0.3rem]`}>
                     <AlertDialogHeader className='flex justify-between align-middle p-2 py-1 bg-primary'>
-                        <AlertDialogTitle className="text-slate-50">Thêm phòng ban</AlertDialogTitle>
+                        <AlertDialogTitle className="text-slate-50">Add Department</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogDescription />
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-                            <div className="p-2 text-sm space-y-3">
-                                <FormField control={form.control} name="name"
+                            <div className="p-2 text-sm space-y-3">                                <FormField control={form.control} name="name"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Tên phòng ban</FormLabel>
+                                            <FormLabel>Department Name</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Nhập tên phòng ban" {...field} disabled={isDisabled} />
+                                                <Input placeholder="Enter department name" {...field} disabled={isDisabled} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -144,16 +143,16 @@ export default function FormCRUD(props: FormProps) {
                                     name="managerId"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Quản lí phòng ban</FormLabel>
+                                            <FormLabel>Department Manager</FormLabel>
                                             <FormControl>
                                                 <Select
                                                     {...field}
-                                                    value={field.value?.toString()} // Giá trị của Select được quản lý bởi react-hook-form
-                                                    onValueChange={field.onChange} // Chuyển giá trị về react-hook-form khi người dùng chọn
+                                                    value={field.value?.toString()} // Value managed by react-hook-form
+                                                    onValueChange={field.onChange} // Pass value to react-hook-form when user selects
                                                     disabled={isDisabled}
                                                 >
                                                     <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Chọn nhân viên làm quản lí" />
+                                                        <SelectValue placeholder="Select employee as manager" />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {

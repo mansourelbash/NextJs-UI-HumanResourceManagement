@@ -29,16 +29,15 @@ const predefinedColors = [
     "hsl(var(--chart-4))",
     "hsl(var(--chart-5))",
 ];
-export function RadialChartCustom({ title, data, firstDescription, secondDescription }: Props) {
-    const chartConfig = data.reduce((config, item, index) => {
+export function RadialChartCustom({ title, data, firstDescription, secondDescription }: Props) {    const chartConfig = data.reduce((config, item, index) => {
         config[item.label.toLowerCase()] = {
             label: item.label,
-            color: predefinedColors[index % predefinedColors.length], // Lặp màu nếu vượt quá danh sách
+            color: predefinedColors[index % predefinedColors.length], // Loop colors if exceeding the list
         };
         return config;
     }, {} as ChartConfig);
 
-    // Chuyển đổi data thành dữ liệu cho Recharts
+    // Convert data to Recharts format
     const chartData = data.map((item) => ({
         name: item.label,
         value: item.value,

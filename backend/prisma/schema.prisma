@@ -1,0 +1,361 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Enums
+enum Role {
+  ADMIN    @map("1")
+  PARTIME  @map("2") 
+  FULLTIME @map("3")
+}
+
+enum StatusHistory {
+  IN  @map("1")
+  OUT @map("2")
+}
+
+enum SignStatus {
+  SIGNED     @map("1")
+  NOT_SIGNED @map("2")
+}
+
+enum ContractStatus {
+  EXPIRED    @map("1")
+  VALID      @map("2")
+  TERMINATED @map("3")
+  PENDING    @map("4")
+  APPROVED   @map("5")
+  DECLINED   @map("6")
+}
+
+enum TypeContract {
+  PARTIME  @map("1")
+  FULLTIME @map("2")
+}
+
+enum StatusCalendar {
+  DRAFT    @map("1")
+  SUBMIT   @map("2")
+  APPROVED @map("3")
+  REFUSE   @map("4")
+  CANCEL   @map("5")
+}
+
+enum UserCalendarStatus {
+  PENDING  @map("1")
+  APPROVED @map("2")
+  REJECTED @map("3")
+}
+
+// Core Models
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  employee Employee?
+
+  @@map("users")
+}
+
+model Department {
+  id            Int    @id @default(autoincrement())
+  name          String @unique
+  managerId     Int?
+  employeeCount Int    @default(0)
+
+  // Relations
+  employees Employee[]
+  positions Position[]
+  contracts Contract[]
+
+  @@map("departments")
+}
+
+model Position {
+  id                     Int    @id @default(autoincrement())
+  name                   String
+  totalPositionsNeeded   Int    @default(0)
+  currentPositionsFilled Int    @default(0)
+  departmentId           Int
+
+  // Relations
+  department Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  employees  Employee[]
+  contracts  Contract[]
+
+  @@map("positions")
+}
+
+model Employee {
+  id                Int       @id @default(autoincrement())
+  userId            Int       @unique
+  name              String
+  dateOfBirth       DateTime?
+  age               Int?
+  tenure            Int?
+  gender            Boolean?
+  address           String?
+  countrySide       String?
+  nationalID        String?   @unique
+  nationalStartDate DateTime?
+  nationalAddress   String?
+  level             String?
+  major             String?
+  positionId        Int?
+  departmentId      Int?
+  avatar            String?
+  phoneNumber       String?
+  email             String?   @unique
+  typeContract      Int       @default(1)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  position         Position?         @relation(fields: [positionId], references: [id])
+  department       Department?       @relation(fields: [departmentId], references: [id])
+  contracts        Contract[]
+  faceRegistrations FaceRegistration[]
+  attendanceHistory AttendanceHistory[]
+  workPlans        WorkPlan[]
+  leaveApplications LeaveApplication[]
+
+  @@map("employees")
+}
+
+model FaceRegistration {
+  id             Int    @id @default(autoincrement())
+  employeeId     Int
+  url            String
+  statusFaceTurn Int // 1-5 (up, down, left, right, straight)
+  descriptor     String @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("face_registrations")
+}
+
+model AttendanceHistory {
+  id            Int           @id @default(autoincrement())
+  employeeId    Int
+  timeSweep     DateTime
+  statusHistory StatusHistory
+  createdAt     DateTime      @default(now())
+
+  // Relations
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("attendance_history")
+}
+
+model ContractType {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String?
+
+  // Relations
+  contracts Contract[]
+
+  @@map("contract_types")
+}
+
+model ContractSalary {
+  id             Int   @id @default(autoincrement())
+  baseSalary     Float
+  baseInsurance  Float
+  requiredDays   Int
+  requiredHours  Int
+  wageDaily      Float
+  wageHourly     Float
+  factor         Float @default(1.0)
+
+  // Relations
+  contracts Contract[]
+
+  @@map("contract_salaries")
+}
+
+model Contract {
+  id                 Int            @id @default(autoincrement())
+  employeeId         Int
+  contractSalaryId   Int
+  contractTypeId     Int
+  departmentId       Int
+  positionId         Int
+  startDate          DateTime
+  endDate            DateTime?
+  fileURL            String?
+  employeeSignStatus SignStatus     @default(NOT_SIGNED)
+  companySignStatus  SignStatus     @default(NOT_SIGNED)
+  contractStatus     ContractStatus @default(PENDING)
+  typeContract       TypeContract   @default(FULLTIME)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  // Relations
+  employee       Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  contractSalary ContractSalary @relation(fields: [contractSalaryId], references: [id])
+  contractType   ContractType   @relation(fields: [contractTypeId], references: [id])
+  department     Department     @relation(fields: [departmentId], references: [id])
+  position       Position       @relation(fields: [positionId], references: [id])
+  allowances     ContractAllowance[]
+  insurances     ContractInsurance[]
+
+  @@map("contracts")
+}
+
+model Allowance {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  amount      Float
+  description String?
+  isActive    Boolean @default(true)
+
+  // Relations
+  contracts ContractAllowance[]
+
+  @@map("allowances")
+}
+
+model Insurance {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  percentage  Float
+  description String?
+  isActive    Boolean @default(true)
+
+  // Relations
+  contracts ContractInsurance[]
+
+  @@map("insurances")
+}
+
+model ContractAllowance {
+  contractId   Int
+  allowanceId  Int
+  amount       Float?
+
+  // Relations
+  contract   Contract  @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  allowance  Allowance @relation(fields: [allowanceId], references: [id], onDelete: Cascade)
+
+  @@id([contractId, allowanceId])
+  @@map("contract_allowances")
+}
+
+model ContractInsurance {
+  contractId  Int
+  insuranceId Int
+  percentage  Float?
+
+  // Relations
+  contract  Contract  @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  insurance Insurance @relation(fields: [insuranceId], references: [id], onDelete: Cascade)
+
+  @@id([contractId, insuranceId])
+  @@map("contract_insurances")
+}
+
+model WorkPlan {
+  id             Int           @id @default(autoincrement())
+  employeeId     Int
+  timeStart      String
+  timeEnd        String
+  statusCalendar StatusCalendar @default(DRAFT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relations
+  employee      Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  userCalendars UserCalendar[]
+
+  @@map("work_plans")
+}
+
+model UserCalendar {
+  id                   Int                @id @default(autoincrement())
+  workPlanId           Int
+  presentShift         String
+  shiftTime            Int // 1: morning, 2: afternoon, 3: evening
+  userCalendarStatus   UserCalendarStatus @default(PENDING)
+
+  // Relations
+  workPlan WorkPlan @relation(fields: [workPlanId], references: [id], onDelete: Cascade)
+
+  @@map("user_calendars")
+}
+
+model LeaveApplication {
+  id          Int      @id @default(autoincrement())
+  employeeId  Int
+  startDate   DateTime
+  endDate     DateTime
+  reason      String
+  status      String   @default("PENDING")
+  appliedAt   DateTime @default(now())
+  approvedAt  DateTime?
+  approvedBy  Int?
+
+  // Relations
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("leave_applications")
+}
+
+model TaxDeduction {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  amount      Float
+  percentage  Float?
+  description String?
+  isActive    Boolean @default(true)
+
+  @@map("tax_deductions")
+}
+
+model Payroll {
+  id                Int      @id @default(autoincrement())
+  employeeId        Int
+  month             Int
+  year              Int
+  baseSalary        Float
+  allowances        Float    @default(0)
+  deductions        Float    @default(0)
+  netSalary         Float
+  paidAt            DateTime?
+  createdAt         DateTime @default(now())
+
+  @@unique([employeeId, month, year])
+  @@map("payrolls")
+}
+
+// Audit Log
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  action    String
+  tableName String
+  recordId  String
+  oldData   Json?
+  newData   Json?
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}

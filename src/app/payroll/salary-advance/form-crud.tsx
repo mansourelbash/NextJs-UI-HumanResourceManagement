@@ -136,15 +136,14 @@ export default function FormCRUD(props: FormProps) {
                   control={form.control}
                   name="employeeId"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nhân viên</FormLabel>
+                    <FormItem>                      <FormLabel>Employee</FormLabel>
                       <Select 
                         value={user?.role == Role.Admin ? (field.value?.toString()):user.id.toString()}
                         onValueChange={field.onChange}
                         disabled={isDisabled||user?.role != Role.Admin} >
                         <FormControl >
                           <SelectTrigger>
-                            <SelectValue placeholder="Nhân viên cần ứng lương" />
+                            <SelectValue placeholder="Employee requesting salary advance" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -162,8 +161,7 @@ export default function FormCRUD(props: FormProps) {
                 <div className="grid grid-cols-2 gap-2 ">
                   <FormField control={form.control} name="payPeriod"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Kì lương</FormLabel>
+                      <FormItem>                        <FormLabel>Pay Period</FormLabel>
                         <FormControl>
                           <Select
                             value={field.value?.toString()}
@@ -171,7 +169,7 @@ export default function FormCRUD(props: FormProps) {
                             disabled={isDisabled}
                           >
                             <SelectTrigger>
-                              <SelectValue placeholder="Chọn kì lương" />
+                              <SelectValue placeholder="Select pay period" />
                             </SelectTrigger>
                             <SelectContent>
                               {
@@ -199,15 +197,14 @@ export default function FormCRUD(props: FormProps) {
                           <Select
                             value={field.value?.toString()}
                             onValueChange={field.onChange}
-                            disabled={true}
-                          >
+                            disabled={true}                          >
                             <SelectTrigger>
-                              <SelectValue placeholder="Trạng thái ứng lương" />
+                              <SelectValue placeholder="Salary advance status" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="0">Chờ duyệt</SelectItem>
-                              <SelectItem value="1">Đã duyệt</SelectItem>
-                              <SelectItem value="2">Từ chối</SelectItem>
+                              <SelectItem value="0">Pending Approval</SelectItem>
+                              <SelectItem value="1">Approved</SelectItem>
+                              <SelectItem value="2">Rejected</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -221,7 +218,7 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="amount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Số tiền cần ứng</FormLabel>
+                        <FormLabel>Advance Amount</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Enter advance amount"
@@ -240,7 +237,7 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="reason"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lý do ứng lương</FormLabel>
+                        <FormLabel>Reason for Salary Advance</FormLabel>
                         <FormControl>
                           <Textarea placeholder="Enter why you need to advance the salary" {...field} value={field.value ?? ''} disabled={isDisabled} />
                         </FormControl>
@@ -253,7 +250,7 @@ export default function FormCRUD(props: FormProps) {
                   <FormField control={form.control} name="note"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Ghi chú</FormLabel>
+                        <FormLabel>Notes</FormLabel>
                         <FormControl>
                           <Textarea placeholder="Enter note" {...field} value={field.value ?? ''} disabled={isDisabled} />
                         </FormControl>

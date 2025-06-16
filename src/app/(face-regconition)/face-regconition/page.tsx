@@ -197,8 +197,7 @@ export default function page() {
       <div className='mx-auto flex w-full flex-col justify-center space-y-2 sm:w-[480px] lg:p-8'>
 
         <Card className='p-6'>
-          <div className='flex flex-col space-y-2 text-left mb-5'>
-            <h1 className='text-2xl font-semibold tracking-tight'>Chấm công</h1>
+          <div className='flex flex-col space-y-2 text-left mb-5'>            <h1 className='text-2xl font-semibold tracking-tight'>Time Tracking</h1>
           </div>
           <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 flex items-center justify-center">
             <div>
@@ -209,7 +208,7 @@ export default function page() {
                   />
                 </AlertDialogTrigger>
                 <AlertDialogContent>
-                  <AlertDialogHeader>Chụp ảnh</AlertDialogHeader>
+                  <AlertDialogHeader>Take Photo</AlertDialogHeader>
                   {isCameraOpen && (
                     <video
                       className="border rounded-lg transform scale-x-[-1]"
@@ -225,21 +224,20 @@ export default function page() {
                 </AlertDialogContent>
               </AlertDialog>
             </div>
-          </div>
-          <Select value={history} onValueChange={(e) => setHistory(e)}>
+          </div>          <Select value={history} onValueChange={(e) => setHistory(e)}>
             <SelectTrigger className="w-full mt-4">
-              <SelectValue placeholder="Chọn trạng thái chấm công" />
+              <SelectValue placeholder="Select attendance status" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Trạng thái chấm công</SelectLabel>
-                <SelectItem value={StatusHistory.In.toString()}>Vào</SelectItem>
-                <SelectItem value={StatusHistory.Out.toString()}>Ra</SelectItem>
+                <SelectLabel>Attendance Status</SelectLabel>
+                <SelectItem value={StatusHistory.In.toString()}>In</SelectItem>
+                <SelectItem value={StatusHistory.Out.toString()}>Out</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
           <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
-            Bằng cách click vào camera nó sẽ giúp bạn chụp ảnh và chấm công{' '}
+            Click on the camera to take a photo and check in/out{' '}
           </p>
         </Card>
       </div>

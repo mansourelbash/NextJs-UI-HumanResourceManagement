@@ -117,23 +117,21 @@ export default function FormCRUD(props: FormProps) {
               <div className="p-2 text-sm space-y-3">
                 <FormField control={form.control} name="name"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nhập tên vị trí</FormLabel>
+                    <FormItem>                      <FormLabel>Enter position name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Nhập tên vị trí" {...field} disabled={isDisabled} />
+                        <Input placeholder="Enter position name" {...field} disabled={isDisabled} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-                <FormField
+                />                <FormField
                   control={form.control}
                   name="totalPositionsNeeded"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Số người cần có</FormLabel>
+                      <FormLabel>Number of People Needed</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="Số người cần có" {...field} disabled={isDisabled} />
+                        <Input type="number" placeholder="Number of people needed" {...field} disabled={isDisabled} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -144,11 +142,11 @@ export default function FormCRUD(props: FormProps) {
                   name="departmentId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Chọn phòng ban</FormLabel>
+                      <FormLabel>Select Department</FormLabel>
                       <Select  onValueChange={field.onChange} defaultValue={field.value?.toString()} disabled={isDisabled} >
                         <FormControl >
                           <SelectTrigger >
-                            <SelectValue  placeholder="Chọn phòng ban cho vị trí này" />
+                            <SelectValue  placeholder="Select department for this position" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

@@ -11,9 +11,8 @@ export default function SignIn() {
           <div className='mb-4 flex items-center justify-center'>
             <Image src={'/images/logo-clip.jpg'} alt='logo' width={200} height={60} />
           </div>
-          <Card className='p-6'>
-            <div className='flex flex-col space-y-2 text-left mb-5'>
-              <h1 className='text-2xl font-semibold tracking-tight'>Đăng nhập hệ thống</h1>
+          <Card className='p-6'>            <div className='flex flex-col space-y-2 text-left mb-5'>
+              <h1 className='text-2xl font-semibold tracking-tight'>System Login</h1>
             </div>
             <UserAuthForm />
             <p className='mt-4 px-8 text-center text-sm text-muted-foreground'>
@@ -23,10 +22,9 @@ export default function SignIn() {
               <Link href='/privacy' className='underline underline-offset-4 hover:text-primary'>
                 Privacy Policy
               </Link>.
-            </p>
-            <div className='mt-2 text-center'>
+            </p>            <div className='mt-2 text-center'>
               <Link href='/' className='underline underline-offset-4  hover:text-primary'>
-                🏠︎ Quay về trang chủ
+                🏠︎ Back to Homepage
               </Link>
             </div>
 

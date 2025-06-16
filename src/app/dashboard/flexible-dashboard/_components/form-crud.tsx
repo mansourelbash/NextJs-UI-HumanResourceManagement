@@ -115,12 +115,11 @@ export default function FormCRUD(props: FormProps) {
             <form className="space-y-0">
                 <Sheet open={openCRUD} onOpenChange={setOpenCRUD}>
                     <SheetTrigger asChild>
-                    </SheetTrigger>
-                    <SheetContent className="p-0 overflow-y-auto sm:max-w-[800px] !sm:w-[800px] min-w-[800px]">
+                    </SheetTrigger>                    <SheetContent className="p-0 overflow-y-auto sm:max-w-[800px] !sm:w-[800px] min-w-[800px]">
                         <SheetHeader className='px-4 pt-3'>
-                            <SheetTitle>Giao diện dashboard</SheetTitle>
+                            <SheetTitle>Dashboard Interface</SheetTitle>
                             <SheetDescription>
-                                Dưới đây là giao diện biểu đồ mà bạn thống kê
+                                Below is the chart interface for your statistics
                             </SheetDescription>
                         </SheetHeader>
                         <div className="grid gap-4 py-4 ">
@@ -130,12 +129,11 @@ export default function FormCRUD(props: FormProps) {
                                         control={form.control}
                                         name="propertyName"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Chọn đối tượng thống kê</FormLabel>
+                                            <FormItem>                                                <FormLabel>Select statistics object</FormLabel>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value?.toString()} >
                                                     <FormControl >
                                                         <SelectTrigger className='w-full'>
-                                                            <SelectValue placeholder="Chọn đối tượng thống kê" />
+                                                            <SelectValue placeholder="Select statistics object" />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent className='w-full'>
@@ -156,17 +154,15 @@ export default function FormCRUD(props: FormProps) {
                                         control={form.control}
                                         name="chartType"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Chọn loại biểu đồ</FormLabel>
+                                            <FormItem>                                                <FormLabel>Select chart type</FormLabel>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value?.toString()} >
                                                     <FormControl >
                                                         <SelectTrigger className='w-full'>
-                                                            <SelectValue placeholder="Chọn loại biểu đồ" />
+                                                            <SelectValue placeholder="Select chart type" />
                                                         </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent >
+                                                    </FormControl>                                                    <SelectContent >
                                                         <SelectGroup>
-                                                            <SelectLabel>Biểu đồ</SelectLabel>
+                                                            <SelectLabel>Chart</SelectLabel>
                                                             <SelectItem value={ChartType.BarChartHorizontal.toString()}>Bar-chart(Horizontal)</SelectItem>
                                                             <SelectItem value={ChartType.BarChartVertical.toString()}>Bar-chart(Vertical)</SelectItem>
                                                             <SelectItem value={ChartType.PieChart.toString()}>Pie Chart</SelectItem>
@@ -182,10 +178,9 @@ export default function FormCRUD(props: FormProps) {
                                 <div className="p-2 text-sm space-y-3 col-span-1">
                                     <FormField control={form.control} name="title"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Nhập tiêu đề biểu đồ</FormLabel>
+                                            <FormItem>                                                <FormLabel>Enter chart title</FormLabel>
                                                 <FormControl>
-                                                    <Input type='text' placeholder="Nhập tiêu đề biểu đồ" {...field} />
+                                                    <Input type='text' placeholder="Enter chart title" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -195,10 +190,9 @@ export default function FormCRUD(props: FormProps) {
                                 <div className="p-2 text-sm space-y-3 col-span-1">
                                     <FormField control={form.control} name="size"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Nhập % giao diện</FormLabel>
+                                            <FormItem>                                                <FormLabel>Enter interface percentage</FormLabel>
                                                 <FormControl>
-                                                    <Input min={1} max={9} type='number' placeholder="Nhập % giao diện" {...field} />
+                                                    <Input min={1} max={9} type='number' placeholder="Enter interface percentage" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -208,10 +202,9 @@ export default function FormCRUD(props: FormProps) {
                                 <div className="p-2 text-sm space-y-3 col-span-1">
                                     <FormField control={form.control} name="firstDescription"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Nhập mô tả 1 của biểu đồ</FormLabel>
+                                            <FormItem>                                                <FormLabel>Enter first chart description</FormLabel>
                                                 <FormControl>
-                                                    <Textarea placeholder="Nhập mô tả 1 của biểu đồ" {...field} />
+                                                    <Textarea placeholder="Enter first chart description" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -221,10 +214,9 @@ export default function FormCRUD(props: FormProps) {
                                 <div className="p-2 text-sm space-y-3 col-span-1">
                                     <FormField control={form.control} name="secondDescription"
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Nhập mô tả 2 của biểu đồ</FormLabel>
+                                            <FormItem>                                                <FormLabel>Enter second chart description</FormLabel>
                                                 <FormControl>
-                                                    <Textarea placeholder="Nhập mô tả 2 của biểu đồ" {...field} />
+                                                    <Textarea placeholder="Enter second chart description" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -232,13 +224,12 @@ export default function FormCRUD(props: FormProps) {
                                     />
                                 </div>
                             </div>
-                        </div>
-                        {/* <div className='p-4'>
+                        </div>                        {/* <div className='p-4'>
                             <BarChartHorizontal />
                         </div> */}
                         <SheetFooter>
-                            <Button className='mr-4 mb-4'>Hiện thử biểu đồ</Button>
-                            <Button onClick={() => handleOnSubmit()} >Hoàn thành</Button>
+                            <Button className='mr-4 mb-4'>Preview chart</Button>
+                            <Button onClick={() => handleOnSubmit()} >Complete</Button>
                         </SheetFooter>
                     </SheetContent>
                 </Sheet>

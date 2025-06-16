@@ -9,8 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import { ColumnDef, Row } from '@tanstack/react-table';
 import { useState } from "react";
 import { CRUD_MODE } from "@/data/const";
-import { leaveApplication } from "@/data/schema/leaveApplication.schema";
+import { leaveApplication, StatusLeave } from "@/data/schema/leaveApplication.schema";
 import { DataFilter } from "@/components/data-table/data-table-toolbar";
+import { useCurrentUser } from "@/app/system/ui/auth-context";
+import { Role } from "@/data/schema/auth.schema";
+import { Badge } from "@/components/ui/badge";
 
 const pathList: Array<PathItem> = [
   {
@@ -26,7 +29,7 @@ const pathList: Array<PathItem> = [
 const dataFilter: Array<DataFilter> = [
   {
     columnName: 'statusLeave',
-    title: 'Status Leave',
+    title: 'Status',
     options: [
       {
         label: 'Draft',
@@ -37,7 +40,7 @@ const dataFilter: Array<DataFilter> = [
         value: '2'
       },
       {
-        label: 'Refuse',
+        label: 'Refused',
         value: '3'
       }
     ],
@@ -48,6 +51,8 @@ export default function LeaveApplicationList() {
   const [detail, setDetail] = useState<leaveApplication>({});
   const [openCRUD, setOpenCRUD] = useState<boolean>(false);
   const [mode, setMode] = useState<CRUD_MODE>(CRUD_MODE.VIEW);
+  const { currentUser } = useCurrentUser();
+  const isAdmin = currentUser?.role === Role.Admin;
 
   const listDataQuery = useQuery({
     queryKey: ["leave-application"],
@@ -62,10 +67,9 @@ export default function LeaveApplicationList() {
       ),
       cell: ({ row }) => <div>{row.getValue('employeeId')}</div>,
     },
-    {
-      accessorKey: 'timeLeave',
+    {      accessorKey: 'timeLeave',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Time Leave' />
+        <DataTableColumnHeader column={column} title='Leave Duration' />
       ),
       cell: ({ row }) => <div>{row.getValue('timeLeave')}</div>,
     },
@@ -76,12 +80,19 @@ export default function LeaveApplicationList() {
       ),
       cell: ({ row }) => <div>{row.getValue('description')}</div>,
     },
-    {
-      accessorKey: 'statusLeave',
+    {      accessorKey: 'statusLeave',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Status Leave' />
-      ),
-      cell: ({ row }) => <div>{row.getValue('statusLeave')}</div>,
+        <DataTableColumnHeader column={column} title='Status' />
+      ),      cell: ({ row }) => {
+        const status = row.getValue('statusLeave') as StatusLeave;
+        return (
+          <div>
+            {status === StatusLeave.Draft && <Badge variant="outline" className="bg-gray-100">Draft</Badge>}
+            {status === StatusLeave.Approved && <Badge variant="outline" className="bg-green-100 text-green-800">Approved</Badge>}
+            {status === StatusLeave.Refuse && <Badge variant="outline" className="bg-red-100 text-red-800">Refused</Badge>}
+          </div>
+        );
+      },
     },
     {
       accessorKey: 'replyMessage',
@@ -90,10 +101,9 @@ export default function LeaveApplicationList() {
       ),
       cell: ({ row }) => <div>{row.getValue('replyMessage')}</div>,
     },
-    {
-      accessorKey: 'refuseReason',
+    {      accessorKey: 'refuseReason',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Refuse Reason' />
+        <DataTableColumnHeader column={column} title='Rejection Reason' />
       ),
       cell: ({ row }) => <div>{row.getValue('refuseReason')}</div>,
     },
@@ -101,15 +111,18 @@ export default function LeaveApplicationList() {
       id: 'actions',
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title='Action' />
-      ),
-      cell: ({ row }) => (
-        <DataTableRowActions
-          row={row}
-          handleView={() => handleView(row)}
-          handleEdit={() => handleEdit(row)}
-          handleDelete={() => handleDelete(row)}
-        />
-      ),
+      ),      cell: ({ row }) => {
+        const status = row.getValue('statusLeave') as StatusLeave;
+        const canDelete = isAdmin || status === StatusLeave.Draft;
+        return (
+          <DataTableRowActions
+            row={row}
+            handleView={() => handleView(row)}
+            handleEdit={() => handleEdit(row)}
+            handleDelete={canDelete ? () => handleDelete(row) : undefined}
+          />
+        );
+      },
     },
   ];
 
@@ -126,12 +139,17 @@ export default function LeaveApplicationList() {
     const selectedData = listDataQuery.data?.metadata?.find(x => x.id === id) ?? {};
     setDetail(selectedData);
     setOpenCRUD(true);
-  };
-
-  const handleEdit = (row: Row<leaveApplication>) => {
+  };  const handleEdit = (row: Row<leaveApplication>) => {
     const id = row.original.id;
     setMode(CRUD_MODE.EDIT);
     const selectedData = listDataQuery.data?.metadata?.find(x => x.id === id) ?? {};
+    
+    // If user is not admin and the leave application is not in Draft status, 
+    // show in view mode instead of edit mode
+    if (!isAdmin && selectedData.statusLeave !== StatusLeave.Draft) {
+      setMode(CRUD_MODE.VIEW);
+    }
+    
     setDetail(selectedData);
     setOpenCRUD(true);
   };
@@ -146,13 +164,12 @@ export default function LeaveApplicationList() {
 
   return (
     <>
-      <div className='mb-2 flex items-center justify-between space-y-2'>
-        <div>
+      <div className='mb-2 flex items-center justify-between space-y-2'>        <div>
           <h2 className='text-2xl font-bold tracking-tight'>Leave Application List</h2>
           <AppBreadcrumb pathList={pathList} className="mt-2" />
         </div>
         <Button onClick={handleAddNew} variant='outline' size='sm' className='bg-primary text-white'>
-          Add New
+          {isAdmin ? "Add New" : "Request Leave"}
         </Button>
       </div>
 

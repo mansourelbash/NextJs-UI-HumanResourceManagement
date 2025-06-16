@@ -145,7 +145,7 @@ export default function FormCRUD(props: FormProps) {
         <Sheet open={openCRUD} onOpenChange={setOpenCRUD}>
           <SheetContent className="p-0 overflow-y-auto sm:max-w-[800px] !sm:w-[800px] min-w-[800px]">
             <SheetHeader className="px-4 pt-3">
-              <SheetTitle>Chi tiết bài đăng</SheetTitle>
+              <SheetTitle>Job Posting Details</SheetTitle>
             </SheetHeader>
             <Form {...form}>
               <form
@@ -158,7 +158,7 @@ export default function FormCRUD(props: FormProps) {
                     name="positionId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Chọn vị trí</FormLabel>
+                        <FormLabel>Select Position</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value?.toString()}
@@ -166,7 +166,7 @@ export default function FormCRUD(props: FormProps) {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Chọn vị trí" />
+                              <SelectValue placeholder="Select position" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -214,14 +214,13 @@ export default function FormCRUD(props: FormProps) {
                   <FormField
                     control={form.control}
                     name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nhập mô tả</FormLabel>
+                    render={({ field }) => (                      <FormItem>
+                        <FormLabel>Enter description</FormLabel>
                         <FormControl>
                           <textarea
                             {...field} // Gán các thuộc tính cần thiết như value và onChange
                             readOnly={isDisabled} // Vô hiệu hóa nếu cần
-                            placeholder="Nhập mô tả"
+                            placeholder="Enter description"
                             className="border rounded p-2 w-full h-40" // Thêm lớp CSS để tùy chỉnh giao diện
                           />
                         </FormControl>
@@ -232,12 +231,11 @@ export default function FormCRUD(props: FormProps) {
                   <FormField
                     control={form.control}
                     name="location"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Địa điểm phỏng vấn</FormLabel>
+                    render={({ field }) => (                      <FormItem>
+                        <FormLabel>Interview Location</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Địa điểm phỏng vấn"
+                            placeholder="Enter interview location"
                             {...field}
                             disabled={isDisabled}
                           />
@@ -245,17 +243,16 @@ export default function FormCRUD(props: FormProps) {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <FormField
+                  />                  <FormField
                     control={form.control}
                     name="salaryRangeMin"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lương tối thiểu</FormLabel>
+                        <FormLabel>Minimum Salary</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Lương tối thiểu"
+                            placeholder="Minimum salary"
                             {...field}
                             disabled={isDisabled}
                           />
@@ -269,11 +266,11 @@ export default function FormCRUD(props: FormProps) {
                     name="salaryRangeMax"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lương tối đa</FormLabel>
+                        <FormLabel>Maximum Salary</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Lương tối đa"
+                            placeholder="Maximum salary"
                             {...field}
                             disabled={isDisabled}
                           />
@@ -285,9 +282,8 @@ export default function FormCRUD(props: FormProps) {
                   <FormField
                     control={form.control}
                     name="postingDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Ngày đăng</FormLabel>
+                    render={({ field }) => (                      <FormItem>
+                        <FormLabel>Posting Date</FormLabel>
                         <FormControl>
                           <Input
                             type="datetime-local"
@@ -309,9 +305,8 @@ export default function FormCRUD(props: FormProps) {
                   <FormField
                     control={form.control}
                     name="expirationDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Ngày hết hạn</FormLabel>
+                    render={({ field }) => (                      <FormItem>
+                        <FormLabel>Expiration Date</FormLabel>
                         <FormControl>
                           <Input
                             type="datetime-local"
@@ -333,12 +328,11 @@ export default function FormCRUD(props: FormProps) {
                   <FormField
                     control={form.control}
                     name="experienceRequired"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Kinh nghiệm yêu cầu</FormLabel>
+                    render={({ field }) => (                      <FormItem>
+                        <FormLabel>Required Experience</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Kinh nghiệm yêu cầu"
+                            placeholder="Enter required experience"
                             {...field}
                             disabled={isDisabled}
                           />
@@ -365,7 +359,7 @@ export default function FormCRUD(props: FormProps) {
                     name="employeeId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Chọn người đăng bài</FormLabel>
+                        <FormLabel>Select poster</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value?.toString()}
@@ -373,7 +367,7 @@ export default function FormCRUD(props: FormProps) {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Chọn người đăng bài" />
+                              <SelectValue placeholder="Select poster" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>

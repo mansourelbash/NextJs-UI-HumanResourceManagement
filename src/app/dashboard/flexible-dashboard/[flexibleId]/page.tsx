@@ -52,10 +52,9 @@ export default function page({ params }: { params: { flexibleId: number } }) {
         setDetail(chartDefault);
         setMode(CRUD_MODE.ADD)
         setOpenCRUD(true);
-    };
-    const parseLabelResults = (jsonString: string): labelResult[] => {
+    };    const parseLabelResults = (jsonString: string): labelResult[] => {
         try {
-            // Phân tích chuỗi JSON
+            // Parse JSON string
             const labelResults: labelResult[] = JSON.parse(jsonString);
             return labelResults;
         } catch (error) {
@@ -74,12 +73,11 @@ export default function page({ params }: { params: { flexibleId: number } }) {
             <div className='mt-10'>
                 <div className='mt-4 flex items-center justify-between'>
                     <p className='text-lg text-gray-500'>Charts In Flexible Dashboard</p>
-                    <Button onClick={() => handleAddNew()}>Tạo mới</Button>
-                </div>
-                <div className='flex items-center justify-center'>
+                    <Button onClick={() => handleAddNew()}>Create New</Button>
+                </div>                <div className='flex items-center justify-center'>
                     {isChange ?
-                        <Input onChange={(e) => setTitle(e.target.value)} className='w-[250px]' type="text" placeholder="Tiêu đề" value={title} /> :
-                        <h1 className='text-[20px] text-gray-500 uppercase'>{title == "" ? "Ghi tiêu đề ở đây" : title}</h1>}
+                        <Input onChange={(e) => setTitle(e.target.value)} className='w-[250px]' type="text" placeholder="Title" value={title} /> :
+                        <h1 className='text-[20px] text-gray-500 uppercase'>{title == "" ? "Write title here" : title}</h1>}
                     <FaPen onClick={() => setIsChange(!isChange)} className='ml-6 text-center cursor-pointer transition-transform duration-200 hover:text-gray-400' />
                 </div>
                 <div className='mt-4'>

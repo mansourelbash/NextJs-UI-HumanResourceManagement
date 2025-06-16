@@ -1,0 +1,16 @@
+@echo off
+echo Starting HRMS Backend Development Server...
+echo.
+
+echo Checking if database is running...
+docker ps | findstr hrms_postgres >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Database not running. Starting PostgreSQL...
+    docker-compose up -d postgres
+    echo Waiting for database to be ready...
+    timeout /t 5 /nobreak >nul
+)
+
+echo.
+echo Starting backend server in development mode...
+npm run dev

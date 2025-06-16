@@ -43,10 +43,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     mutationFn: (body: Auth) => {
       return authApiRequest.adminLogin(body)
     },
-    onSuccess: (data) => {
-      if (data.isSuccess) {
+    onSuccess: (data) => {      if (data.isSuccess) {
         queryClient.invalidateQueries({queryKey:["current-user"]});
-        handleSuccessApi({title:'Đăng nhập thành công', message:'Vui lòng chờ trong giây lát'})
+        handleSuccessApi({title:'Login successful', message:'Please wait a moment'})
         router.push('/dashboard');
       }
       else{
@@ -60,10 +59,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     mutationFn: (body: Auth) => {
       return authApiRequest.employeeLogin(body)
     },
-    onSuccess: (data) => {
-      if (data.isSuccess) {
+    onSuccess: (data) => {      if (data.isSuccess) {
         queryClient.invalidateQueries({queryKey:["current-user"]});
-        handleSuccessApi({title:'Đăng nhập thành công', message:'Vui lòng chờ trong giây lát'})
+        handleSuccessApi({title:'Login successful', message:'Please wait a moment'})
         router.push('/profile');
       }
       else{
@@ -121,14 +119,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             />
             <Button type='submit' className='mt-2' loading={isPendingLogin || isPendingLoginEmployee}>
               Login
-            </Button>
-            <Button type='button' className='bg-gray-400'>
+            </Button>            <Button type='button' className='bg-gray-400'>
               {layout == 0 ?
                 <Link href="/login-admin">
-                  Đăng nhập quản trị viên
+                  Admin Login
                 </Link> :
                 <Link href="/login-employee">
-                  Đăng nhập nhân viên
+                  Employee Login
                 </Link>
               }
 

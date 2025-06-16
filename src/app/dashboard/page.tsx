@@ -70,7 +70,7 @@ export default function Dashboard() {
   const { data: employeeData, isLoading, isError } = useQuery({
     queryKey: [QUERY_KEY.employee],
     queryFn: () => employeeApiRequest.getList(),
-    select: (data: ApiResponse<Employee[]>) => data.metadata || [], // Lấy toàn bộ dữ liệu nhân viên
+    select: (data: ApiResponse<Employee[]>) => data.metadata || [], // Get all employee data
   });
   const MasterCount = employeeData?.filter(employee => employee.level === "Thạc sĩ").length || 0;
   const BachelorCount = employeeData?.filter(employee => employee.level === "Đại học").length || 0;
@@ -148,18 +148,17 @@ export default function Dashboard() {
 
   const chartConfig = {
     count: {
-      label: "Số nhân viên",
-    },
-    countContractLabel: {
-      label: "Số hợp đồng",
+      label: "Number of employees",
+    },    countContractLabel: {
+      label: "Number of Contracts",
     },
     male: {
-      label: "Nam",
-      color: "hsl(var(--chart-1))", // Đổi màu nếu cần
+      label: "Male",
+      color: "hsl(var(--chart-1))", // Change color if needed
     },
     female: {
-      label: "Nữ",
-      color: "hsl(var(--chart-2))", // Đổi màu nếu cần
+      label: "Female",
+      color: "hsl(var(--chart-2))", // Change color if needed
     },
     fulltime: {
       label: "Full-time",
@@ -168,32 +167,30 @@ export default function Dashboard() {
     partime: {
       label: "Part-time",
       color: "hsl(var(--chart-4))",
-    },
-    master: {
-      label: "Thạc Sĩ",
+    },    master: {
+      label: "Master's Degree",
       color: "hsl(var(--chart-1))",
     },
     doctorate: {
-      label: "Tiến Sĩ",
+      label: "Doctorate",
       color: "hsl(var(--chart-2))",
     },
     engineer: {
-      label: "Kỹ Sư",
+      label: "Engineer",
       color: "hsl(var(--chart-3))",
     },
     bachelor: {
-      label: "Cử Nhân",
+      label: "Bachelor's Degree",
       color: "hsl(var(--chart-4))",
-    },
-    applicant:{
-      label: "Số đơn ứng tuyển"
+    },    applicant:{
+      label: "Number of Applications"
     }
   } satisfies ChartConfig
 
   // Add dynamic department configurations
   const chartConfigDepartment: DynamicChartConfig= {    
     count: {
-    label: "Số nhân viên",
+    label: "Number of employees",
   },}
   departmentData?.forEach(department => {
     chartConfigDepartment[department.id] = {
@@ -222,10 +219,9 @@ export default function Dashboard() {
         queryKey: [QUERY_KEY.employeeCountKey],
         queryFn: () => dashboardApiRequest.getEmployeeCountByBaseSalary()
     })
-
   const chartApplicantPosition : DynamicChartConfig={
     count: {
-      label: "Số đơn ứng tuyển: ",
+      label: "Number of Applications: ",
       
     }}
 
@@ -293,25 +289,23 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-5">
-      <div className='flex items-center justify-between space-y-2'>
-        <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Trang chủ</h2>
+      <div className='flex items-center justify-between space-y-2'>        <div>
+          <h2 className='text-2xl font-bold tracking-tight'>Dashboard</h2>
           <AppBreadcrumb pathList={pathList} className="mt-2" />
         </div>
       </div>
 
-      {/* đếm số lượng */}
+      {/* Statistics Count */}
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5"> 
         {isLoading ? (
-          <p>Đang tải dữ liệu...</p>
+          <p>Loading data...</p>
         ) : isError ? (
-          <p>Đã xảy ra lỗi khi tải dữ liệu</p>
+          <p>An error occurred while loading data</p>
         ) : (
           <>
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card>                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                    Số Lượng Nhân Viên
+                    Number of Employees
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -319,15 +313,14 @@ export default function Dashboard() {
                         totalEmployees ?? 0
                     }</div>
                     <p className="text-xs text-muted-foreground">
-                        số nhân viên trong công ty
+                        number of employees in the company
                     </p>
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card>                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                    Số Lượng Phòng Ban
+                    Number of Departments
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -335,15 +328,14 @@ export default function Dashboard() {
                         totalDepartment ?? 0
                     }</div>
                     <p className="text-xs text-muted-foreground">
-                        số lượng phòng ban đang có
+                        number of departments currently available
                     </p>
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card>                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                    Số Lượng Chức Vụ
+                    Number of Positions
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -351,15 +343,13 @@ export default function Dashboard() {
                         totalDepartment ?? 0
                     }</div>
                     <p className="text-xs text-muted-foreground">
-                        số chức vụ hiện tại trong công ty
+                        current positions in the company
                     </p>
                 </CardContent>
-            </Card>
-
-            <Card>
+            </Card>            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                    Số Lượng Tin Tuyển Dụng
+                    Number of Job Postings
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -367,15 +357,13 @@ export default function Dashboard() {
                         jobCountData?.metadata ?? 0
                     }</div>
                     <p className="text-xs text-muted-foreground">
-                        tổng số tin tuyển dụng đã đăng
+                        total recruitment posts published
                     </p>
                 </CardContent>
-            </Card>
-
-            <Card>
+            </Card>            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                    Số Lượng Đơn Ứng Tuyển
+                    Number of Applications
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -383,19 +371,17 @@ export default function Dashboard() {
                         applicantCountData?.metadata ?? 0
                     }</div>
                     <p className="text-xs text-muted-foreground">
-                        tổng số đơn ứng tuyển đã nhận
+                        total job applications received
                     </p>
                 </CardContent>
             </Card>
           </>
         )}
-      </div>
-
-      {/* thống kê */}
+      </div>      {/* Statistics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="flex flex-col">
           <CardHeader className="items-center pb-0">
-            <CardTitle>Tỉ Lệ Nam-Nữ</CardTitle>
+            <CardTitle>Gender Ratio</CardTitle>
           </CardHeader>
           <CardContent className="flex-1 pb-0">
             <ChartContainer
@@ -422,14 +408,12 @@ export default function Dashboard() {
           </CardContent>
           <CardFooter className="flex-col gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Số Lượng Nhân Viên theo giới tính
+              Number of Employees by Gender
             </div>
           </CardFooter>
-        </Card>
-
-        <Card className="flex flex-col">
+        </Card>        <Card className="flex flex-col">
           <CardHeader className="items-center pb-0">
-            <CardTitle>Hợp Đồng Full-time/Part-time</CardTitle>
+            <CardTitle>Full-time/Part-time Contracts</CardTitle>
           </CardHeader>
           <CardContent className="flex-1 pb-0">
             <ChartContainer
@@ -453,17 +437,14 @@ export default function Dashboard() {
                 </Pie>
               </PieChart>
             </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col gap-2 text-sm">
+          </CardContent>          <CardFooter className="flex-col gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-             Số Lượng Hợp Đồng theo loại Fulltime - Partime
+             Number of Contracts by Type: Fulltime - Partime
             </div>
           </CardFooter>
-        </Card>
-
-        <Card className="flex flex-col">
+        </Card>        <Card className="flex flex-col">
           <CardHeader className="items-center pb-0">
-            <CardTitle>Thống Kê Trình Độ</CardTitle>
+            <CardTitle>Education Level Statistics</CardTitle>
           </CardHeader>
           <CardContent className="flex-1 pb-0">
             <ChartContainer
@@ -490,7 +471,7 @@ export default function Dashboard() {
           </CardContent>
           <CardFooter className="flex-col gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Số Lượng Nhân Viên Theo Trình Độ
+              Number of Employees by Education Level
             </div>
           </CardFooter>
         </Card>
@@ -498,15 +479,14 @@ export default function Dashboard() {
         <Card className="flex flex-col">
           <CardHeader className="items-center pb-0">
             <CardTitle>
-              Các Đơn Ứng Lương Kì Lương Này
+              Salary Advance Requests This Period
             </CardTitle>
           </CardHeader>
           <br />
           <CardContent>
-            <div>
-              <div style={{ marginBottom: '20px' }}>
+            <div>              <div style={{ marginBottom: '20px' }}>
                 <label>
-                  Ngày bắt đầu: <span></span>
+                  Start Date: <span></span>
                   <input
                     type="date"
                     value={startDate}
@@ -514,25 +494,23 @@ export default function Dashboard() {
                   />
                 </label>
                 <label>
-                  Ngày kết thúc:
+                  End Date:
                   <input
                     type="date"
                     value={endDate}
                     onChange={handleEndDateChange}
                   />
                 </label>
-              </div>
-              {advanceCountLoading ? (
+              </div>              {advanceCountLoading ? (
                 <p>Loading...</p>
               ) : (
                 <div>
-                  <p>Số đơn ứng trước: {advanceCountData&&advanceCountData!.metadata}</p>
+                  <p>Number of Advance Requests: {advanceCountData&&advanceCountData!.metadata}</p>
                 </div>
-              )}
-              <button 
+              )}              <button 
                 onClick={() => setChange(change + 1)} 
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 w-full mt-4">
-                Hiển thị thông tin
+                Display Information
               </button>
             </div>               
           </CardContent>
@@ -542,7 +520,7 @@ export default function Dashboard() {
       <div className="flex justify-between space-x-4">
           <Card className="w-1/2">
               <CardHeader>
-                  <CardTitle>Nhân Viên - Phòng Ban</CardTitle>
+                  <CardTitle>Employees by Department</CardTitle>
               </CardHeader>
               <CardContent>
                   <ChartContainer config={chartConfigDepartment}>
@@ -595,14 +573,13 @@ export default function Dashboard() {
               </CardContent>
               <CardFooter className="flex-col items-start gap-2 text-sm">
                   <div className="leading-none text-muted-foreground">
-                      Hiển Thị Số Lượng Nhân Viên Theo Phòng Ban
+                      Display Number of Employees by Department
                   </div>
               </CardFooter>
           </Card>
 
-          <Card className="w-1/2">
-              <CardHeader>
-                  <CardTitle>Thống kê Đơn Ứng Tuyển Theo Vị Trí</CardTitle>
+          <Card className="w-1/2">              <CardHeader>
+                  <CardTitle>Applications by Position</CardTitle>
               </CardHeader>
               <CardContent>
                   <ChartContainer config={chartApplicantPosition}>
@@ -644,10 +621,9 @@ export default function Dashboard() {
                           </Bar>
                       </BarChart>
                   </ChartContainer>
-              </CardContent>
-              <CardFooter className="flex-col items-start gap-2 text-sm">
+              </CardContent>              <CardFooter className="flex-col items-start gap-2 text-sm">
                   <div className="leading-none text-muted-foreground">
-                      Hiển Thị Các Vị Trí Được Ứng Tuyển Nhiều Nhất
+                      Display Most Applied Positions
                   </div>
               </CardFooter>
           </Card>
@@ -656,7 +632,7 @@ export default function Dashboard() {
       <div className="flex flex-wrap gap-4">
         <Card className="flex-1">
           <CardHeader>
-            <CardTitle>Nhân Viên - Range Tuổi</CardTitle>
+            <CardTitle>Employees by Age Range</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig}>
@@ -692,14 +668,14 @@ export default function Dashboard() {
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Hiển Thị Số Lượng Nhân Viên Theo Range Tuổi
+              Display Number of Employees by Age Range
             </div>
           </CardFooter>
         </Card>
 
         <Card className="flex-1">
           <CardHeader>
-            <CardTitle>Nhân Viên - Thâm Niên (Năm)</CardTitle>
+            <CardTitle>Employees by Years of Service</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig}>
@@ -735,7 +711,7 @@ export default function Dashboard() {
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Hiển thị các số lượng các nhân viên theo các thâm niên.
+              Display the number of employees by years of service.
             </div>
           </CardFooter>
         </Card>
@@ -744,7 +720,7 @@ export default function Dashboard() {
       <div>
         <Card>
             <CardHeader>
-                <CardTitle>Số Lượng Nhân Viên Theo Mức Lương Cơ Bản</CardTitle>
+                <CardTitle>Number of Employees by Base Salary Range</CardTitle>
             </CardHeader>
             <CardContent>
                 <ChartContainer  config={chartConfig}>
@@ -781,7 +757,7 @@ export default function Dashboard() {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
                 <div className="leading-none text-muted-foreground">
-                    Hiển Thị Số Lượng Nhân Viên Theo Các Mức Lương Cơ Bản
+                    Display Number of Employees by Base Salary Levels
                 </div>
             </CardFooter>
         </Card>
@@ -791,16 +767,15 @@ export default function Dashboard() {
           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle>
-                      Danh Sách Các Đơn Xin Nghỉ Trong Ngày
+                      List of Leave Applications Today
                   </CardTitle>
               </CardHeader>
-              <Table>
-                  <TableHeader>
+              <Table>              <TableHeader>
                       <TableRow>
-                      <TableHead className="w-[100px]">Trạng thái</TableHead>
-                      <TableHead>Mã nhân viên</TableHead>
-                      <TableHead className="text-center">Lí do nghỉ</TableHead>
-                      <TableHead className="text-center">Hồi đáp</TableHead>
+                      <TableHead className="w-[100px]">Status</TableHead>
+                      <TableHead>Employee ID</TableHead>
+                      <TableHead className="text-center">Reason for Leave</TableHead>
+                      <TableHead className="text-center">Response</TableHead>
                       </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -824,12 +799,11 @@ export default function Dashboard() {
           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle>
-                      Danh sách hợp đồng sắp hết hạn
+                      List of contracts expiring soon
                   </CardTitle>
               </CardHeader>
-              <CardContent>
-                  <label>
-                      Lấy ngày hết hạn hợp đồng: <span></span>
+              <CardContent>                  <label>
+                      Contract expiration date: <span></span>
                       <input
                           type="date"
                           value={selectedDate}
@@ -837,17 +811,16 @@ export default function Dashboard() {
                       />
                   </label>
                   <span style={{ margin: '0 20px' }}></span>
-                  <Button onClick={() => setChange(change + 1)}>Lấy Danh Sách</Button>
+                  <Button onClick={() => setChange(change + 1)}>Get List</Button>
               </CardContent>
               
               <Table>
-                  <TableCaption>Danh Sách Hợp Đồng Trước Ngày Hết Hạn 30 Ngày</TableCaption>
-                  <TableHeader>
+                  <TableCaption>List of Contracts Expiring Within 30 Days</TableCaption>                  <TableHeader>
                       <TableRow>
-                      <TableHead className="w-[150px]">Mã Hợp Đồng</TableHead>
-                      <TableHead>Tên Nhân Viên</TableHead>
-                      <TableHead className="text-center">Ngày Bắt Đầu</TableHead>
-                      <TableHead className="text-center">Ngày Két Thúc</TableHead>
+                      <TableHead className="w-[150px]">Contract ID</TableHead>
+                      <TableHead>Employee Name</TableHead>
+                      <TableHead className="text-center">Start Date</TableHead>
+                      <TableHead className="text-center">End Date</TableHead>
                       </TableRow>
                   </TableHeader>
                   <TableBody>

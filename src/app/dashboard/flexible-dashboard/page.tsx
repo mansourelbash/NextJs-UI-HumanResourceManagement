@@ -37,7 +37,7 @@ export default function page() {
         onSuccess(data, ) {
             if (data.isSuccess) {
                 router.push(`/dashboard/flexible-dashboard/${data.metadata}?title=${data.metadata!.title}`)
-                handleSuccessApi({ message: "Tạo mới thành công !" })
+                handleSuccessApi({ message: "Created successfully!" })
             }
         },
     })
@@ -52,7 +52,7 @@ export default function page() {
             <div className='mt-10'>
                 <div className='mt-4 flex items-center justify-between'>
                     <p className='text-lg text-gray-500'>Flexible Dashboard All Pages</p>
-                    <Button loading={isPending} onClick={() => mutate()}>Tạo mới</Button>
+                    <Button loading={isPending} onClick={() => mutate()}>Create New</Button>
                 </div>
                 <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-12'>
                     {
@@ -62,7 +62,7 @@ export default function page() {
                                     <div className='font-semibold leading-none tracking-tight'>
                                         <div className='flex items-center justify-between'>
                                             <p>Page {index + 1}</p>
-                                            <FaEye onClick={() => { router.push(`/dashboard/flexible-dashboard/${item.id}?title=${item.title == null ? "Ghi tiêu đề ở đây" : item.title}`) }} className='ml-6 text-center cursor-pointer transition-transform duration-200 hover:text-gray-400' />
+                                            <FaEye onClick={() => { router.push(`/dashboard/flexible-dashboard/${item.id}?title=${item.title == null ? "Write title here" : item.title}`) }} className='ml-6 text-center cursor-pointer transition-transform duration-200 hover:text-gray-400' />
                                         </div>
                                     </div>
                                 </div>

@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const pathList: Array<PathItem> = [
   {
-    name: "Thành Phần Lương",
+    name: "Salary Components",
     url: "/salary-components"
   },
   {
@@ -142,7 +142,7 @@ export default function SampleList() {
     <>
       <div className='mb-2 flex items-center justify-between space-y-2'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Danh Sách Tỷ Lệ Thuế</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>Tax Rate List</h2>
           <AppBreadcrumb pathList={pathList} className="mt-2" />
         </div>
       </div>

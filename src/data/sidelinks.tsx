@@ -34,87 +34,84 @@ export const sidelinks: SideLink[] = [
     href: '/dashboard',
     icon: <IconLayoutDashboard size={18} />,
     roles: [Role.Admin]
-  },
-  {
-    title: 'Công ty',
+  },  {
+    title: 'Company',
     label: '',
     href: '',
     icon: <IconBuilding size={18} />,
     roles: [Role.Admin],
     sub: [
       {
-        title: 'Danh sách nhân viên',
+        title: 'Employee List',
         label: '',
         href: '/company/employee-list',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Danh sách phòng ban',
+        title: 'Department List',
         label: '',
         href: '/company/department',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Danh sách chức vụ',
+        title: 'Position List',
         label: '',
         href: '/company/position',
         icon: <IconFileText size={18} />,
       }
     ],
-  },
-  {
-    title: 'Hợp đồng',
+  },  {
+    title: 'Contract',
     label: '',
     href: '',
     icon: <IconContract size={18} />,
     roles: [Role.Admin],
     sub: [
       {
-        title: 'Danh sách hợp đồng',
+        title: 'Contract List',
         label: '',
         href: '/contract/contract-list',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Duyệt hợp đồng',
+        title: 'Contract Approval',
         label: '',
         href: '/contract/contract-approval',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Quy định lương',
+        title: 'Salary Rules',
         label: '',
         href: '/contract/contract-salary',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Phụ cấp',
+        title: 'Allowances',
         label: '',
         href: '/contract/allowance',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Bảo hiểm',
+        title: 'Insurance',
         label: '',
         href: '/contract/insurance',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Loại hợp đồng',
+        title: 'Contract Types',
         label: '',
         href: '/contract/contract-type',
         icon: <IconFileText size={18} />,
       },
     ],
-  },
-  {
-    title: 'Chấm công',
+  },  {
+    title: 'Time Tracking',
     label: '',
     href: '/time-keeping',
     icon: <IconCalendarTime size={18} />,
     sub: [
       {
-        title: 'Đăng ký ca làm việc',
+        title: 'Register Work Shift',
         label: '',
         href: '/time-keeping/register-shift',
         icon: <IconFileText size={18} />,
@@ -128,22 +125,21 @@ export const sidelinks: SideLink[] = [
         roles: [Role.Admin, Role.Partime],
       },
       {
-        title: 'Lịch làm việc',
+        title: 'Work Schedule',
         label: '',
         href: '/time-keeping/work-shift',
         icon: <IconFileText size={18} />,
         roles: [Role.Admin],
       },
       {
-        title: 'Đơn xin nghỉ phép',
+        title: 'Leave Application',
         label: '',
         href: '/time-keeping/leave-application',
         icon: <IconFileText size={18} />,
       },
     ]
-  },
-  {
-    title: 'Lịch sử chấm công',
+  },  {
+    title: 'Attendance History',
     label: '',
     href: '/history',
     icon: <IconCalendarTime size={18} />,
@@ -163,115 +159,112 @@ export const sidelinks: SideLink[] = [
         roles: [Role.Fulltime],
       },
       {
-        title: 'Đăng ký khuôn mặt',
+        title: 'Face Recognition Registration',
         label: '',
         href: '/history/face-regconition',
         icon: <IconFileText size={18} />,
       }
     ]
-  },
-  {
-    title: 'Tính lương',
+  },  {
+    title: 'Payroll',
     label: '',
     href: '',
     icon: <IconCashRegister size={18} />,
 
     sub: [
       {
-        title: 'Bảng lương',
+        title: 'Salary Summary',
         label: '',
         href: '/payroll/salary-summary',
         icon: <IconFileText size={18} />,
         roles: [Role.Admin],
       },
       {
-        title: 'Lịch sử tổng hợp',
+        title: 'Summary History',
         label: '',
         href: '/payroll/salary-history',
         icon: <IconFileText size={18} />,
         roles: [Role.Admin],
       },
       {
-        title: 'Ứng lương',
+        title: 'Salary Advance',
         label: '',
         href: '/payroll/salary-advance',
         icon: <IconFileText size={18} />,
         roles: [Role.Admin,Role.Partime, Role.Fulltime],
       }
     ],
-  },
-  {
-    title: 'Thành phần lương',
+  },  {
+    title: 'Salary Components',
     label: '',
     href: '',
     icon: <IconBusinessplan size={18} />,
     roles: [Role.Admin],
     sub: [
       {
-        title: 'Công thức tính lương',
+        title: 'Salary Formula',
         label: '',
         href: '/salary-components/formula',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Khoản trừ không thuế',
+        title: 'Non-taxable Deductions',
         label: '',
         href: '/salary-components/deduction',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Khoản thưởng',
+        title: 'Bonuses',
         label: '',
         href: '/salary-components/bonus',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Thuế suất',
+        title: 'Tax Rate',
         label: '',
         href: '/salary-components/tax-rate',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Khấu trừ thuế',
+        title: 'Tax Deduction',
         label: '',
         href: '/salary-components/tax-deduction',
         icon: <IconFileText size={18} />,
       }
     ],
-  },
-  {
-    title: 'Truyển dụng',
+  },  {
+    title: 'Recruitment',
     label: '3',
     href: '',
     icon: <IconAddressBook size={18} />,
     roles: [Role.Admin],
     sub: [
       {
-        title: 'Hồ sơ ứng viên',
+        title: 'Candidate Profiles',
         label: '',
         href: '/recruitment/applicant',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Trang tuyển dụng',
+        title: 'Recruitment Website',
         label: '',
         href: '/recruitment/web',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Bài kiểm tra',
+        title: 'Interview Tests',
         label: '',
         href: '/recruitment/interview-test',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Câu hỏi kiểm tra',
+        title: 'Test Questions',
         label: '',
         href: '/recruitment/interview-question',
         icon: <IconFileText size={18} />,
       },
       {
-        title: 'Tin tuyển dụng',
+        title: 'Job Postings',
         label: '',
         href: '/recruitment/job-posting',
         icon: <IconFileText size={18} />,

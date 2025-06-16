@@ -10,40 +10,37 @@ export default function Onboarding() {
                         <div>
                             <Image src={'/images/logo_org.png'} alt='logo-text' width={160} height={80} quality={100} />
                         </div>
-                        <div>
-                            <div className="hidden md:block">
+                        <div>                            <div className="hidden md:block">
                                 <span className="inline-block py-1 md:py-4 text-gray-600 mr-6 font-bold" >
-                                    Nhân sự
+                                    Human Resources
                                 </span>
                                 <span className="inline-block py-1 md:py-4 text-gray-500 hover:text-gray-600 mr-6">
-                                    Tiền lương
+                                    Payroll
                                 </span>
                                 <span className="inline-block py-1 md:py-4 text-gray-500 hover:text-gray-600 mr-6" >
-                                    Chấm công
+                                    Time Tracking
                                 </span>
                                 <span className="inline-block py-1 md:py-4 text-gray-500 hover:text-gray-600 mr-6" >
-                                    Tuyển dụng
+                                    Recruitment
                                 </span>
                             </div>
-                        </div>
-                        <div className="hidden md:block">
+                        </div>                        <div className="hidden md:block">
                             <Link href="/login-admin" className="inline-block py-1 md:py-4 text-gray-500 hover:text-gray-600 mr-6" >
-                                Đăng nhập quản trị
+                                Admin Login
                             </Link>
                             <Link href="/login-employee" className="inline-block py-2 px-4 text-gray-700 bg-white hover:bg-gray-100 rounded-lg">
-                                Đăng nhập nhân viên
+                                Employee Login
                             </Link>
                         </div>
                     </div>
                 </div>
                 <div className="bg-gray-200 md:overflow-hidden">
                     <div className="px-4 py-16">
-                        <div className="relative w-full md:max-w-2xl md:mx-auto text-center">
-                            <h1 className="font-bold text-gray-700 text-xl sm:text-2xl md:text-5xl leading-tight mb-6">
-                                Giải pháp quản lý nhân sự hiệu quả cho doanh nghiệp
+                        <div className="relative w-full md:max-w-2xl md:mx-auto text-center">                            <h1 className="font-bold text-gray-700 text-xl sm:text-2xl md:text-5xl leading-tight mb-6">
+                                Effective Human Resource Management Solution for Business
                             </h1>
                             <p className="text-gray-600 md:text-xl md:px-18">
-                               Quản lý nhân sự toàn diện, hiệu quả, tiết kiệm
+                               Comprehensive, efficient, and cost-effective human resource management
                             </p>
                             <div className="hidden md:block h-40 w-40 rounded-full bg-blue-800 absolute right-0 bottom-0 -mb-64 -mr-48" />
                             <div className="hidden md:block h-5 w-5 rounded-full bg-yellow-500 absolute top-0 right-0 -mr-40 mt-32" />

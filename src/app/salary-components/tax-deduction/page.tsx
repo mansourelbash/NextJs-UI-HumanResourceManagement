@@ -146,7 +146,7 @@ export default function SampleList() {
     <>
       <div className='mb-2 flex items-center justify-between space-y-2'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Danh Sách Khấu Trừ Thuế</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>Tax Deduction List</h2>
           <AppBreadcrumb pathList={pathList} className="mt-2" />
         </div>
       </div>

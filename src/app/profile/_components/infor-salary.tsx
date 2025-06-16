@@ -12,28 +12,27 @@ type Props = {
 }
 export default function InforSalary({ baseSalary, baseInsurance, requiredDays, requriedHours, wageDaily, wageHourly, factor }: Props) {
     return (
-        <div className='rounded-xl border bg-card text-card-foreground shadow col-span-5 ml-4'>
-            <div className='flex flex-col space-y-1.5 p-6'>
-                <div className='font-semibold leading-none tracking-tight'>Thông tin mức lương</div>
+        <div className='rounded-xl border bg-card text-card-foreground shadow col-span-5 ml-4'>            <div className='flex flex-col space-y-1.5 p-6'>
+                <div className='font-semibold leading-none tracking-tight'>Salary Information</div>
             </div>
             <div className='p-6 pt-0 pl-2'>
                 <div className='flex items-center justify-between ml-4'>
                     <div className="grid w-1/2 max-w-sm items-center gap-1.5 p-1">
-                        <Label htmlFor="email">Mức lương cơ bản</Label>
+                        <Label htmlFor="email">Base Salary</Label>
                         <Input disabled={true} value={baseSalary} />
                     </div>
                     <div className="grid w-1/2 max-w-sm items-center gap-1.5 p-1">
-                        <Label htmlFor="email">Mức bảo hiểm cơ bản</Label>
+                        <Label htmlFor="email">Base Insurance Level</Label>
                         <Input disabled={true} value={baseInsurance} />
                     </div>
                 </div>
                 <div className='flex items-center justify-between ml-4'>
                     <div className="grid w-1/2 max-w-sm items-center gap-1.5 p-1">
-                        <Label htmlFor="email">Số ngày bắt buộc</Label>
+                        <Label htmlFor="email">Required Days</Label>
                         <Input disabled={true} value={requiredDays} />
                     </div>
                     <div className="grid w-1/2 max-w-sm items-center gap-1.5 p-1">
-                        <Label htmlFor="email">Số giờ bắt buộc</Label>
+                        <Label htmlFor="email">Required Hours</Label>
                         <Input disabled={true} value={requriedHours} />
                     </div>
                 </div>
